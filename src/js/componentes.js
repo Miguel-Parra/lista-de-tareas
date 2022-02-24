@@ -7,6 +7,7 @@ const txtInput = document.querySelector('.new-todo');
 const btnBorrar = document.querySelector('.clear-completed');
 const ulFiltros = document.querySelector('.filters');
 const anchorFiltros = document.querySelectorAll('.filtro')
+const strongPend = document.querySelector('strong');
 
 export const crearTodoHtml = (todo) => {
 	const htmlTodo = `
@@ -25,6 +26,9 @@ export const crearTodoHtml = (todo) => {
 	// return htmlTodo;
 	return div.firstElementChild;
 }
+export const colocarPendientesHtml = () => {
+	strongPend.innerText = todoList.pendientes;
+}
 
 //Eventos
 txtInput.addEventListener('keyup', (event) => {
@@ -34,6 +38,7 @@ txtInput.addEventListener('keyup', (event) => {
 		txtInput.value = '';
 		todoList.nuevoTodo(nuevoTodo);
 		crearTodoHtml(nuevoTodo);
+		colocarPendientesHtml();
 	}
 })
 
@@ -46,12 +51,13 @@ divTodoList.addEventListener('click', (event) => {
 
 	if (nombreElemento.includes('input')) { // clic en el check
 		todoList.marcarCompletado(todoId);
-		todoElemento.classList.toggle('completed')
+		todoElemento.classList.toggle('completed');
 	}
 	if (nombreElemento.includes('button')) { //clic en el boton
 		todoList.eliminarTodo(todoId);
 		divTodoList.removeChild(todoElemento);
 	}
+	colocarPendientesHtml();
 })
 
 btnBorrar.addEventListener('click', () => {
@@ -62,6 +68,7 @@ btnBorrar.addEventListener('click', () => {
 			divTodoList.removeChild(elemento);
 		}
 	}
+	colocarPendientesHtml();
 })
 
 ulFiltros.addEventListener('click', (event) => {
